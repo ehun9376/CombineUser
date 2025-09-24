@@ -8,56 +8,36 @@
 import Combine
 import Foundation
 
-enum UsersListViewState {
-    case idle
-    case loading
-    case loaded([UserCellViewItem])
-    case failed(String)
-}
-
-struct UserCellViewItem: Hashable {
-    let id: Int
-    let title: String
-    let subtitle: String
-}
-
-final class UsersListViewModel {
-    @Published private(set) var state: UsersListViewState = .idle
+class UsersListViewModel {
+    @Published private(set) var state: ViewState = .idle
 
     private let fetchUsers: FetchUsersUseCase
-    private let fetchUserById: FetchUsersByIdUseCase
     private var bag = Set<AnyCancellable>()
 
-    init(fetchUsers: FetchUsersUseCase, fetchUserById: FetchUsersByIdUseCase) {
+    init(fetchUsers: FetchUsersUseCase) {
         self.fetchUsers = fetchUsers
-        self.fetchUserById = fetchUserById
     }
 
     func load() {
         self.state = .loading
         self.fetchUsers.execute()
-            .map { users in
-                users.map { UserCellViewItem(id: $0.id, title: $0.name, subtitle: $0.email) }
-            }
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] completion in
                 if case let .failure(err) = completion {
-                    let message: String
-                    switch err {
-                    case .network:
-                        message = "網路連線失敗"
-                    case .server: 
-                        message = "伺服器錯誤"
-                    case .decoding: 
-                        message = "資料解析失敗"
-                    case .unknown: 
-                        message = "未知錯誤"
-                    }
-                    self?.state = .failed(message)
+                    self?.state = .failed(err.localizedDescription)
                 }
-            }, receiveValue: { [weak self] items in
-                self?.state = .loaded(items)
+            },
+                  receiveValue: { [weak self] items in
+                guard let self else { return }
+                
+                if !items.isEmpty {
+                    self.state = .loaded(items)
+                } else {
+                    self.state = .failed("沒有任何使用者資料")
+                    
+                }
+               
             })
-            .store(in: &bag)
+            .store(in: &self.bag)
     }
 }

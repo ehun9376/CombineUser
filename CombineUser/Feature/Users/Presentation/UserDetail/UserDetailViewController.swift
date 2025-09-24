@@ -6,45 +6,70 @@
 //
 
 import UIKit
+import Combine
 
-final class UserDetailViewController: UIViewController, UITableViewDataSource {
+class UserDetailViewController: UIViewController {
+    
+    private var bag = Set<AnyCancellable>()
+    
     private let tableView = UITableView(frame: .zero, style: .insetGrouped)
+    
+    private lazy var adapter = TableViewAdapter(tableView: self.tableView)
+    
     private let viewModel: UserDetailViewModel
 
     init(viewModel: UserDetailViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        title = viewModel.title
     }
-    required init?(coder: NSCoder) { fatalError() }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-
-        tableView.dataSource = self
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(tableView)
+        self.setupView()
+        self.bind()
+        self.viewModel.loadByUserId()
+    }
+    
+    func setupView() {
+        self.view.backgroundColor = .systemBackground
+        self.tableView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(self.tableView)
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            self.tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            self.tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            self.tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
     }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.lines.count
+    
+    func bind() {
+        self.viewModel.$state
+            .receive(on: DispatchQueue.main)
+            .sink(receiveValue: { [weak self] state in
+                guard let self = self else { return }
+                switch state {
+                case .idle, .loading:
+                    break
+                case .loaded(let data):
+                    guard let user = data as? User else { return }
+                    self.updateTableView(user: user)
+                case .failed(let message):
+                    print(message)
+                }
+            })
+            .store(in: &self.bag)
+                
+    }
+    
+    func updateTableView(user: User) {
+        let models: [UserCellViewItem] = [.init(id: user.id, title: user.phone, subtitle: user.website)]
+        self.adapter.updateRowModels(models)
+            
     }
 
-    func tableView(_ tableView: UITableView,
-                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
-            ?? UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
-        let item = viewModel.lines[indexPath.row]
-        cell.textLabel?.text = item.0
-        cell.detailTextLabel?.text = item.1
-        cell.detailTextLabel?.numberOfLines = 0
-        return cell
-    }
+  
 }
