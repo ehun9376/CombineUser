@@ -13,5 +13,17 @@ class UsersEndpoint {
         let e = Endpoint(path: "/users", method: .get, query: nil, headers: nil, body: nil)
         return e
     }
+    
+    //假的
+    static func getUser(id: Int) -> Endpoint {
+        let e = Endpoint(path: "/users/\(id)", method: .get, query: nil, headers: nil, body: nil)
+        return e
+    }
+    
+    //假的
+    static func deleteUser(id: Int) -> Endpoint {
+        let e = Endpoint(path: "/users/\(id)", method: .delete, query: nil, headers: nil, body: nil)
+        return e
+    }
 }
 

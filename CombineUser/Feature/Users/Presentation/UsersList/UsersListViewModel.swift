@@ -25,15 +25,17 @@ final class UsersListViewModel {
     @Published private(set) var state: UsersListViewState = .idle
 
     private let fetchUsers: FetchUsersUseCase
+    private let fetchUserById: FetchUsersByIdUseCase
     private var bag = Set<AnyCancellable>()
 
-    init(fetchUsers: FetchUsersUseCase) {
+    init(fetchUsers: FetchUsersUseCase, fetchUserById: FetchUsersByIdUseCase) {
         self.fetchUsers = fetchUsers
+        self.fetchUserById = fetchUserById
     }
 
     func load() {
-        state = .loading
-        fetchUsers.execute()
+        self.state = .loading
+        self.fetchUsers.execute()
             .map { users in
                 users.map { UserCellViewItem(id: $0.id, title: $0.name, subtitle: $0.email) }
             }

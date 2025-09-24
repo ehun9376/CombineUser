@@ -14,11 +14,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        let jsonPlaceholder = APIDomain.jsonPlaceholder
+        let jsonPlaceholder = APIURL.jsonPlaceholder
         let client = APIClient(baseURL: jsonPlaceholder.rawValue)
         let repo = UsersRepositoryImpl(api: client)
-        let useCase = FetchUsersUseCase(repository: repo)
-        let listVM = UsersListViewModel(fetchUsers: useCase)
+        let fetchUseCase = FetchUsersUseCase(repository: repo)
+        let fetchByIdUseCase = FetchUsersByIdUseCase(repository: repo)
+        let listVM = UsersListViewModel(fetchUsers: fetchUseCase, fetchUserById: fetchByIdUseCase)
         let listVC = UsersListViewController(viewModel: listVM)
         let nav = UINavigationController(rootViewController: listVC)
 

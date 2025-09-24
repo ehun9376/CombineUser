@@ -37,7 +37,9 @@ class APIClient {
             
             comps?.queryItems = endpoint.query
             
-            guard let url = comps?.url else { throw APIError.invalidURL }
+            guard let url = comps?.url else {
+                throw APIError.invalidURL
+            }
             
             var request = URLRequest(url: url)
             
@@ -62,9 +64,21 @@ class APIClient {
                     }
                     return output.data
                 }
-                .mapError { APIError.transport($0) }
+                .mapError { error in
+                    if let apiError = error as? APIError {
+                        return apiError
+                    } else {
+                        return APIError.transport(error)
+                    }
+                }
                 .decode(type: T.self, decoder: self.decoder)
-                .mapError { APIError.decoding($0) }
+                .mapError { error in
+                    if let apiError = error as? APIError {
+                        return apiError
+                    } else {
+                        return APIError.decoding(error)
+                    }
+                }
                 .eraseToAnyPublisher()
         } catch {
             return Fail(error: error as? APIError ?? .unknown).eraseToAnyPublisher()

@@ -7,7 +7,7 @@
 
 import Combine
 
-class FetchUsersUseCase {
+class FetchUsersByIdUseCase {
     
     private let repository: UsersRepository
     
@@ -17,8 +17,8 @@ class FetchUsersUseCase {
         self.repository = repository
     }
 
-    func execute() -> AnyPublisher<[User], DomainError> {
-        return self.repository.fetchUsers()
+    func execute(by id: Int) -> AnyPublisher<User, DomainError> {
+        return self.repository.fetchUser(by: id)
     }
 }
 

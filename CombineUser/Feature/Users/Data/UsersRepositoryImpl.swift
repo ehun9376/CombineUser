@@ -9,15 +9,42 @@ import Combine
 
 class UsersRepositoryImpl: UsersRepository {
     
+  
+    
     private let api: APIClient
     
     init(api: APIClient) { self.api = api }
 
     func fetchUsers() -> AnyPublisher<[User], DomainError> {
-        return self.api.request(UsersEndpoint.getUsers(), type: [User].self)
+        return self.api.request(UsersEndpoint.getUsers(), type: [UserDTO].self)
+            .map({ $0.map { $0.toDomain() } })
             .mapError {
                 DomainError.from(apiError: $0)
             }
             .eraseToAnyPublisher()
     }
+    
+    func fetchUser(by id: Int) -> AnyPublisher<User, DomainError> {
+        return self.api.request(UsersEndpoint.getUser(id: id), type: UserDTO.self)
+            .map { $0.toDomain() }
+            .mapError {
+                DomainError.from(apiError: $0)
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    func deleteUser(id: Int) -> AnyPublisher<Bool, DomainError> {
+        
+        return self.api.request(UsersEndpoint.deleteUser(id: id), type: UserDTO.self)
+            .map { _ in true }
+            .mapError {
+                DomainError.from(apiError: $0)
+            }
+            .eraseToAnyPublisher()
+            
+        
+    }
+    
 }
+
+
