@@ -67,7 +67,9 @@ class UserRepoTests: XCTestCase {
                         exp.fulfill()
                     }
                 },
-                receiveValue: { _ in XCTFail("should fail") }
+                receiveValue: { _ in
+                    XCTFail("should fail")
+                }
             )
             .store(in: &bag)
 
