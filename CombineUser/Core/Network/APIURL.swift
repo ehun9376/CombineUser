@@ -7,5 +7,4 @@
 
 enum APIURL: String {
     case jsonPlaceholder = "https://jsonplaceholder.typicode.com"
-    
 }

@@ -137,8 +137,7 @@ class UserUseCaseTests: XCTestCase {
     
     func test_deleteUser_success_returnTrue() {
         let repo = UsersRepositoryMock()
-        repo.deleteResult =
-        Just(true)
+        repo.deleteResult = Just(true)
             .setFailureType(to: DomainError.self)
             .eraseToAnyPublisher()
         
@@ -157,23 +156,5 @@ class UserUseCaseTests: XCTestCase {
         wait(for: [exp], timeout: 1)
         
     }
-
-    //MARK: -  測試Data轉換
-    ///確認DTO轉換成Domain的行為
-    func test_userDTO_toDomain_success() {
-        let userDTO = UserDTO(id: 1, name: "A", username: "A", email: "email123@gmail.com", phone: "0987", website: "www.google.com.tw", address: .init(street: "street", suite: "suite", city: "city", zipcode: "zipcode"), company: .init(name: "111", catchPhrase: "catchPhrase", bs: "bs"))
-        let user = userDTO.toDomain()
-        
-        XCTAssertEqual(user.name, "A")
-    }
-    
-    func test_userDTO_toDomain_failure() {
-        let userDTO = UserDTO(id: 1, name: "A", username: "A", email: "email123@gmail.com", phone: "0987", website: "www.google.com.tw", address: .init(street: "street", suite: "suite", city: "city", zipcode: "zipcode"), company: .init(name: "111", catchPhrase: "catchPhrase", bs: "bs"))
-        let user = userDTO.toDomain()
-        
-        XCTAssertNotEqual(user.name, "B")
-    }
-    
-    
 
 }

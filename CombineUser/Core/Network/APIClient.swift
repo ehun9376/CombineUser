@@ -27,7 +27,7 @@ class APIClient {
         self.encoder = encoder
     }
     
-    func request<T: Decodable>(_ endpoint: Endpoint, type: T.Type) -> AnyPublisher<T, APIError> {
+    func request<T: Decodable>(_ endpoint: Endpoint, type: T.Type, policy: RetryPolicy = .networkAnd5xx) -> AnyPublisher<T, APIError> {
         do {
             guard let url = URL(string: self.baseURL) else {
                 throw APIError.invalidURL
@@ -79,6 +79,7 @@ class APIClient {
                         return APIError.decoding(error)
                     }
                 }
+                .retry(policy: policy)
                 .eraseToAnyPublisher()
         } catch {
             return Fail(error: error as? APIError ?? .unknown).eraseToAnyPublisher()
