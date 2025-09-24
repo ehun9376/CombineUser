@@ -32,18 +32,7 @@ class UsersRepositoryImpl: UsersRepository {
             }
             .eraseToAnyPublisher()
     }
-    
-    func deleteUser(id: Int) -> AnyPublisher<Bool, DomainError> {
-        
-        return self.api.request(UsersEndpoint.deleteUser(id: id), type: UserDTO.self)
-            .map { _ in true }
-            .mapError {
-                DomainError.from(apiError: $0)
-            }
-            .eraseToAnyPublisher()
-            
-        
-    }
+
     
 }
 

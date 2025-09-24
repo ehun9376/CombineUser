@@ -34,7 +34,6 @@
 		36B721B52E838317001B0E2B /* UserDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B721B42E838314001B0E2B /* UserDTO.swift */; };
 		36B721B72E838372001B0E2B /* UserMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B721B62E838370001B0E2B /* UserMapper.swift */; };
 		36B721B92E8389D0001B0E2B /* FetchUsersByIdUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B721B82E8389D0001B0E2B /* FetchUsersByIdUseCase.swift */; };
-		36B721BC2E8393D7001B0E2B /* DeleteUserUserCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B721BB2E8393D7001B0E2B /* DeleteUserUserCase.swift */; };
 		36B721BF2E839B3E001B0E2B /* UserDtoConvertTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B721BE2E839B3E001B0E2B /* UserDtoConvertTests.swift */; };
 		36B721C22E839C18001B0E2B /* MockURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B721C12E839C12001B0E2B /* MockURL.swift */; };
 		36B721C62E839CCB001B0E2B /* UserRepoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B721C52E839CC4001B0E2B /* UserRepoTests.swift */; };
@@ -90,7 +89,6 @@
 		36B721B42E838314001B0E2B /* UserDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDTO.swift; sourceTree = "<group>"; };
 		36B721B62E838370001B0E2B /* UserMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMapper.swift; sourceTree = "<group>"; };
 		36B721B82E8389D0001B0E2B /* FetchUsersByIdUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchUsersByIdUseCase.swift; sourceTree = "<group>"; };
-		36B721BB2E8393D7001B0E2B /* DeleteUserUserCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserUserCase.swift; sourceTree = "<group>"; };
 		36B721BE2E839B3E001B0E2B /* UserDtoConvertTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDtoConvertTests.swift; sourceTree = "<group>"; };
 		36B721C12E839C12001B0E2B /* MockURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURL.swift; sourceTree = "<group>"; };
 		36B721C52E839CC4001B0E2B /* UserRepoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepoTests.swift; sourceTree = "<group>"; };
@@ -126,7 +124,6 @@
 			children = (
 				36B721142E829001001B0E2B /* FetchUsersUseCase.swift */,
 				36B721B82E8389D0001B0E2B /* FetchUsersByIdUseCase.swift */,
-				36B721BB2E8393D7001B0E2B /* DeleteUserUserCase.swift */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -491,7 +488,6 @@
 				36B721242E829001001B0E2B /* Endpoint.swift in Sources */,
 				36B721252E829001001B0E2B /* UsersRepositoryImpl.swift in Sources */,
 				36B721262E829001001B0E2B /* UsersListViewModel.swift in Sources */,
-				36B721BC2E8393D7001B0E2B /* DeleteUserUserCase.swift in Sources */,
 				36B721272E829001001B0E2B /* UsersEndpoint.swift in Sources */,
 				369E87542E83CD4F0064CBD1 /* ViewState.swift in Sources */,
 				36B721282E829001001B0E2B /* UserDetailViewModel.swift in Sources */,

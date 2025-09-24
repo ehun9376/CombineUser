@@ -10,5 +10,4 @@ import Combine
 protocol UsersRepository {
     func fetchUsers() -> AnyPublisher<[User], DomainError>
     func fetchUser(by id: Int) -> AnyPublisher<User, DomainError>
-    func deleteUser(id: Int) -> AnyPublisher<Bool, DomainError>
 }

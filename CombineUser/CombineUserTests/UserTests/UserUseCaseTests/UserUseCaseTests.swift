@@ -17,7 +17,6 @@ class UserUseCaseTests: XCTestCase {
         
         var fetchUserResult: AnyPublisher<User, DomainError>!
         
-        var deleteResult: AnyPublisher<Bool, DomainError>!
             
                 
         func fetchUsers() -> AnyPublisher<[User], DomainError> {
@@ -28,10 +27,7 @@ class UserUseCaseTests: XCTestCase {
                         
             return self.fetchUserResult
         }
-        
-        func deleteUser(id: Int) -> AnyPublisher<Bool, DomainError> {
-            return self.deleteResult
-        }
+ 
         
     }
 
@@ -135,26 +131,5 @@ class UserUseCaseTests: XCTestCase {
         wait(for: [exp], timeout: 1)
     }
     
-    func test_deleteUser_success_returnTrue() {
-        let repo = UsersRepositoryMock()
-        repo.deleteResult = Just(true)
-            .setFailureType(to: DomainError.self)
-            .eraseToAnyPublisher()
-        
-        let sut = DeleteUserUseCase(repository: repo)
-        
-        let exp = expectation(description: "delete")
-        sut.execute(by: 1)
-            .sink(
-                receiveCompletion: { _ in },
-                receiveValue: { success in
-                    XCTAssertTrue(success)
-                    exp.fulfill()
-                }
-            )
-            .store(in: &bag)
-        wait(for: [exp], timeout: 1)
-        
-    }
 
 }

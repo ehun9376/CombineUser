@@ -76,7 +76,36 @@ class UserRepoTests: XCTestCase {
         wait(for: [exp], timeout: 1)
     }
     
-    //TODO: - delete, fetch user by id
+    func test_repository_success_decodes() {
+        let json = """
+        {"id":1,"name":"A","username":"a","email":"a@a.com","phone":"1","website":"w",
+          "address":{"street":"s","suite":"1","city":"c","zipcode":"z"},
+          "company":{"name":"co","catchPhrase":"cp","bs":"bs"}}
+        """.data(using: .utf8)!
+        MockURL.response = (200, json)
+
+        let api = self.makeAPIClient()
+        let repo = UsersRepositoryImpl(api: api)
+
+        let exp = expectation(description: "ok")
+        var bag = Set<AnyCancellable>()
+
+        repo.fetchUser(by: 1)
+            .sink(
+                receiveCompletion: { c in
+                    if case .failure(let e) = c {
+                        XCTFail("\(e)")
+                    }
+                },
+                receiveValue: { users in
+                    XCTAssertEqual(users.name, "A")
+                    exp.fulfill()
+                }
+            ).store(in: &bag)
+        
+        wait(for: [exp], timeout: 1)
+    }
+    
 
  
 
