@@ -9,7 +9,7 @@ import Combine
 import Foundation
 
 class UsersListViewModel {
-    @Published private(set) var state: ViewState = .idle
+    @Published private(set) var state: ViewState<[User]> = .idle
 
     private let fetchUsers: FetchUsersUseCase
     private var bag = Set<AnyCancellable>()

@@ -55,8 +55,7 @@ class UserDetailViewController: UIViewController {
                 case .idle, .loading:
                     break
                 case .loaded(let data):
-                    guard let user = data as? User else { return }
-                    self.updateTableView(user: user)
+                    self.updateTableView(user: data)
                 case .failed(let message):
                     print(message)
                 }

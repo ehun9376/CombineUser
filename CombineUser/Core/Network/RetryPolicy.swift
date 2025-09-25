@@ -38,7 +38,7 @@ extension Publisher where Failure == APIError {
     func retry(policy: RetryPolicy, scheduler: DispatchQueue = .global()) -> AnyPublisher<Output, Failure> {
 
         func attempt(_ retryTime: Int) -> AnyPublisher<Output, Failure> {
-            self.catch { error -> AnyPublisher<Output, Failure> in
+            return self.catch { error -> AnyPublisher<Output, Failure> in
                 guard retryTime < policy.maxRetries, policy.retryable(error) else {
                     return Fail(error: error).eraseToAnyPublisher()
                 }

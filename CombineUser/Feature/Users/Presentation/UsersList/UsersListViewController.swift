@@ -57,8 +57,7 @@ class UsersListViewController: UIViewController {
                 case .idle, .loading:
                     break
                 case .loaded(let data):
-                    guard let items = data as? [User] else { return }
-                    self.applySnapshot(items: items)
+                    self.applySnapshot(items: data)
                 case .failed(let message):
                     self.showErrorAlert(message)
                 }
