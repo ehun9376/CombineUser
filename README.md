@@ -306,10 +306,10 @@ func load() {
 ### 畫面狀態管理
 
 ```swift
-enum ViewState {
+enum ViewState<T> {
     case idle
     case loading
-    case loaded(Any)
+    case loaded(T)
     case failed(String)
 }
 

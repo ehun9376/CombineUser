@@ -9,16 +9,15 @@ import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    
+    var appContainer = AppContainer()
 
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        let client = APIClient(baseURL: APIURL.jsonPlaceholder.rawValue)
-        let repo = UsersRepositoryImpl(api: client)
-        let fetchUseCase = FetchUsersUseCase(repository: repo)
-        let listVM = UsersListViewModel(fetchUsers: fetchUseCase)
-        let listVC = UsersListViewController(viewModel: listVM)
+        let userContainer = UsersContainer(parent: self.appContainer)
+        let listVC = UsersListViewController(viewModel: userContainer.resolve())
         let nav = UINavigationController(rootViewController: listVC)
 
 
