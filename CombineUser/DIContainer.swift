@@ -20,7 +20,9 @@ class AppContainer: Resolver {
     
     func resolve<T>() -> T {
         let key = ObjectIdentifier(T.self)
-        guard let v = singletons[key] as? T else { fatalError("Unregistered \(T.self)") }
+        guard let v = singletons[key] as? T else {
+            fatalError("Unregistered \(T.self)")
+        }
         return v
     }
     
