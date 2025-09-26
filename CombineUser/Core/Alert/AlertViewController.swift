@@ -30,6 +30,7 @@ class AlertViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.setupView()
         self.setupAlert(config: self.config)
     }
     
