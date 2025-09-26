@@ -61,11 +61,27 @@ class UserDetailViewController: UIViewController {
                 }
             })
             .store(in: &self.bag)
+        
+        self.viewModel.$alertConfig
+            .receive(on: DispatchQueue.main)
+            .sink(receiveValue: {config in
+                guard let config = config else { return }
+                AlertPresenter.shared.showAlert(.simple(config: config))
+            })
+            .store(in: &self.bag)
                 
     }
     
     func updateTableView(user: User) {
-        let models: [UserCellViewItem] = [.init(id: user.id, title: user.phone, subtitle: user.website)]
+        let models: [UserCellViewItem] = [
+            .init(id: user.id,
+                  title: user.phone,
+                  subtitle: user.website,
+                  cellDidSelectAction: { [weak self] _ in
+                      guard let self = self else { return }
+                      self.viewModel.alertConfig = .init(title: "title", message: "message", actions: [ .cancel(), .confirm(),], prefersDismissOnBackgroundTap: true)
+                  })
+        ]
         self.adapter.updateRowModels(models)
             
     }

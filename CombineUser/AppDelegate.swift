@@ -30,6 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.appCoordinator?.start() // 只負責啟動
         
+        AlertPresenter.shared = .init(window: self.window)
+        
         return true
     }
 

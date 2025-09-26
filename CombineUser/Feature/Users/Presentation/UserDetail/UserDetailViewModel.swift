@@ -13,6 +13,8 @@ class UserDetailViewModel {
     private var bag = Set<AnyCancellable>()
     
     @Published private(set) var state: ViewState<User> = .idle
+    
+    @Published var alertConfig: SimpleAlertConfig?
 
     private let fetchUserById: FetchUsersByIdUseCase
     
