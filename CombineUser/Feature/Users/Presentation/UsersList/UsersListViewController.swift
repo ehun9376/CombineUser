@@ -9,6 +9,8 @@ import UIKit
 import Combine
 
 class UsersListViewController: UIViewController {
+    
+    weak var coordinator: UsersCoordinator?
 
     private let tableView = UITableView(frame: .zero, style: .plain)
     
@@ -74,21 +76,13 @@ class UsersListViewController: UIViewController {
                                             subtitle: item.email,
                                             cellDidSelectAction: { [weak self] _ in
                 guard let self = self else { return }
-                self.pushToUserDetail(userId: item.id)
+                self.coordinator?.showUserDetail(userId: item.id)
             })
             rowModels.append(rowModel)
             
         }
         
         self.tableViewAdapter.updateRowModels(rowModels)
-    }
-    
-    func pushToUserDetail(userId: Int) {
-        let apiClient = APIClient(baseURL: APIURL.jsonPlaceholder.rawValue)
-        let repo = UsersRepositoryImpl(api: apiClient)
-        let detailVM = UserDetailViewModel(fetchUserById: FetchUsersByIdUseCase(repository: repo), userId: userId)
-        let detailVC = UserDetailViewController(viewModel: detailVM)
-        self.navigationController?.pushViewController(detailVC, animated: true)
     }
     
     func showErrorAlert(_ message: String) {

@@ -36,14 +36,21 @@ class UsersContainer: Resolver {
 
     init(parent: Resolver) {
         self.parent = parent
+        
         self.factories[ObjectIdentifier((any UsersRepository).self)] = { c in
             UsersRepositoryImpl(api: c.parent.resolve())
         }
+        
         self.factories[ObjectIdentifier(FetchUsersUseCase.self)] = { c in
             FetchUsersUseCase(repository: c.resolve())
         }
+        
         self.factories[ObjectIdentifier(UsersListViewModel.self)] = { c in
             UsersListViewModel(fetchUsers: c.resolve())
+        }
+        
+        self.factories[ObjectIdentifier(FetchUsersByIdUseCase.self)] = { c in
+            FetchUsersByIdUseCase(repository: c.resolve())
         }
     }
 
