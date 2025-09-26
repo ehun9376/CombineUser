@@ -7,9 +7,6 @@
 
 import UIKit
 
-enum AlertStyle {
-    case simple(config: SimpleAlertConfig)
-}
 
 struct AlertAction {
     let title: String
@@ -33,6 +30,4 @@ struct SimpleAlertConfig {
     let prefersDismissOnBackgroundTap: Bool
 }
 
-protocol AlertPresenting {
-    func showAlert(_ style: AlertStyle)
-}
+

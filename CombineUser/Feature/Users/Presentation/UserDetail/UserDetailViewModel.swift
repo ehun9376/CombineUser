@@ -12,9 +12,11 @@ class UserDetailViewModel {
     
     private var bag = Set<AnyCancellable>()
     
-    @Published private(set) var state: ViewState<User> = .idle
+    @Published private(set) var state: ViewState = .idle
     
     @Published var alertConfig: SimpleAlertConfig?
+    
+    @Published private(set) var user: User?
 
     private let fetchUserById: FetchUsersByIdUseCase
     
@@ -37,7 +39,8 @@ class UserDetailViewModel {
             },
                   receiveValue: { [weak self] value in
                 guard let self else { return }
-                self.state = .loaded(value)
+                self.state = .loaded
+                self.user = value
             })
             .store(in: &bag)
         

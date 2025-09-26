@@ -34,7 +34,7 @@ class UsersListViewController: UIViewController {
         super.viewDidLoad()
         self.setupView()
         self.bind()
-        self.viewModel.load()
+        self.viewModel.load(page: 1, size: 20)
     }
     
     func setupView() {
@@ -56,15 +56,23 @@ class UsersListViewController: UIViewController {
             .sink(receiveValue: { [weak self] state in
                 guard let self = self else { return }
                 switch state {
-                case .idle, .loading:
+                case .loading:
+                    //Show load indicator
                     break
-                case .loaded(let data):
-                    self.applySnapshot(items: data)
                 case .failed(let message):
                     self.showErrorAlert(message)
+                default:
+                    break
                 }
             })
             .store(in: &bag)
+        self.viewModel.$users
+            .receive(on: DispatchQueue.main)
+            .sink(receiveValue: { [weak self] items in
+                guard let self = self else { return }
+                self.applySnapshot(items: items)
+            })
+            .store(in: &self.bag)
     }
     
     func applySnapshot(items: [User]) {

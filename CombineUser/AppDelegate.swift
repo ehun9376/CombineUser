@@ -28,9 +28,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController = navigationController
         self.window?.makeKeyAndVisible()
         
-        self.appCoordinator?.start() // 只負責啟動
+        self.appCoordinator?.start()
         
-        AlertPresenter.shared = .init(window: self.window)
+        AlertPresenter.shared.setup(window: self.window)
         
         return true
     }

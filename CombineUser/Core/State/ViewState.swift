@@ -5,9 +5,9 @@
 //  Created by 陳逸煌 on 2025/9/24.
 //
 
-enum ViewState<T> {
+enum ViewState {
     case idle
     case loading
-    case loaded(T)
+    case loaded
     case failed(String)
 }

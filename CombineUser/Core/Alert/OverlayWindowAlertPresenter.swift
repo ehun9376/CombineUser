@@ -7,24 +7,17 @@
 
 import UIKit
 
-class AlertPresenter {
-    static var shared: OverlayWindowAlertPresenter!
+class AlertPresenter: AlertPresenting {
     
-    // 禁止直接初始化，強制使用 shared instance
-    private init() {}
-}
-
-class OverlayWindowAlertPresenter: AlertPresenting {
+    static let shared = AlertPresenter()
     
     private weak var window: UIWindow?
     
-
-    init(
-        window: UIWindow? = nil
-    ) {
+    func setup(window: UIWindow?) {
         self.window = window
-       
     }
+    
+
 
     func showAlert(_ style: AlertStyle) {
         DispatchQueue.main.async {

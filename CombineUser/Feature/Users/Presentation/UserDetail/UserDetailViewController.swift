@@ -52,12 +52,14 @@ class UserDetailViewController: UIViewController {
             .sink(receiveValue: { [weak self] state in
                 guard let self = self else { return }
                 switch state {
-                case .idle, .loading:
-                    break
-                case .loaded(let data):
-                    self.updateTableView(user: data)
+
+   
+         
                 case .failed(let message):
                     print(message)
+                    //TODO: - showAlert
+                default:
+                    break
                 }
             })
             .store(in: &self.bag)
