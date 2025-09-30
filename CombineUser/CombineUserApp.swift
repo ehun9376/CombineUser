@@ -30,27 +30,27 @@ struct ContentView: View {
     @EnvironmentObject private var navigationCoordinator: NavigationCoordinator
     
     var body: some View {
-        TabView {
-            // Users Tab
-            NavigationWrapper {
+        NavigationWrapper {
+            TabView {
                 let usersContainer = UsersContainer(parent: appContainer)
                 let viewModel: UsersListViewModel = usersContainer.resolve()
                 
                 UsersListView(viewModel: viewModel)
+                    .tabItem {
+                        Image(systemName: "person.3.fill")
+                        Text("Users")
+                    }
+                
+                // Settings Tab (Future expansion)
+                NavigationWrapper {
+                    SettingsView()
+                }
+                .tabItem {
+                    Image(systemName: "gear")
+                    Text("Settings")
+                }
             }
-            .tabItem {
-                Image(systemName: "person.3.fill")
-                Text("Users")
-            }
-            
-            // Settings Tab (Future expansion)
-            NavigationWrapper {
-                SettingsView()
-            }
-            .tabItem {
-                Image(systemName: "gear")
-                Text("Settings")
-            }
+          
         }
         .sheet(item: $navigationCoordinator.sheet) { destination in
             NavigationBuilder(appContainer: appContainer).sheet(for: destination)
