@@ -5,7 +5,7 @@
 //  Created by 陳逸煌 on 2025/9/24.
 //
 
-enum ViewState {
+enum ViewState: Equatable {
     case idle
     case loading
     case loaded

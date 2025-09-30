@@ -1,6 +1,6 @@
 //
 //  UsersListViewModel.swift
-//  CombineTest
+//  CombineUser
 //
 //  Created by 陳逸煌 on 2025/9/23.
 //
@@ -8,7 +8,7 @@
 import Combine
 import Foundation
 
-protocol UsersListViewModelProtocol {
+protocol UsersListViewModelProtocol: ObservableObject {
     
     init(fetchUsers: FetchUsersUseCase)
     
@@ -18,6 +18,7 @@ protocol UsersListViewModelProtocol {
     var bag: Set<AnyCancellable> { get set }
     
     func load(page: Int, size: Int)
+    func refresh()
 }
 
 class UsersListViewModel: UsersListViewModelProtocol {
@@ -56,4 +57,11 @@ class UsersListViewModel: UsersListViewModelProtocol {
             })
             .store(in: &self.bag)
     }
+    
+    func refresh() {
+        self.users = []
+        self.load(page: 1, size: 20)
+    }
+    
+    
 }

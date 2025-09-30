@@ -10,7 +10,7 @@ protocol Resolver {
     func resolve<T>() -> T
 }
 
-class AppContainer: Resolver {
+class AppContainer: Resolver, ObservableObject {
     
     private var singletons: [ObjectIdentifier: Any] = [:]
     
